@@ -1,0 +1,32 @@
+---
+# vars file for logwire
+jdk_package_name: 'jdk-8u231-linux-x64.tar.gz'
+
+docker_image_logwire_port: 8088
+docker_image_logwire_user: 'logwire'
+docker_image_logwire_password: 'greaLOGWIRE'
+docker_image_logwire_name: 'logwire'
+docker_image_logwire_alias_name: logwire
+docker_image_logwire_exe: 'logwire-start.jar'
+docker_image_logwire_conf: 'logwire-start.conf'
+
+docker_image_logwire_local_main_path: /grea/logwire
+docker_image_logwire_local_packages_path: packages
+docker_image_logwire_local_data_path: data
+docker_image_package_name: centos7.tar
+
+host_logwire_port: 8088
+
+logwire_spring_datasource_url: 'jdbc:postgresql://postgresql:5432/logwire'
+logwire_spring_datasource_username:  postgres
+logwire_spring_datasource_password: greaPSQL11
+logwire_spring_datasource_driver_class_name: 'org.postgresql.Driver'
+
+logwire_spring_redis_host: 'redis'
+logwire_spring_redis_port: 6379
+
+logwire_tenants0_id: sto
+logwire_default_tenants_id: sto
+
+java_Xms: 1024m
+java_Xmx: 4096m

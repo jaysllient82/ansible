@@ -1,0 +1,13 @@
+---
+# vars file for redis
+docker_image_redis_port: 6379
+docker_image_redis_name: greaconsulting/redis:5.0.6
+docker_image_redis_alias_name: redis
+
+docker_image_redis_local_main_path: /grea/redis
+docker_image_redis_local_data_path: data
+docker_image_redis_local_packages_path: packages
+docker_image_redis_local_conf_path: conf
+docker_image_package_name: redis.tar
+
+host_redis_port: 6379

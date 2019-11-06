@@ -1,0 +1,17 @@
+version: '2'
+services:
+  logwire:
+    image: {{ docker_image_logwire_name }}
+    ports:
+      - "{{ host_logwire_port }}:{{ docker_image_logwire_port }}"
+    volumes:
+      - {{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path}}:/app/logwire
+    container_name: {{ docker_image_logwire_alias_name }}
+    entrypoint: ["/app/logwire/{{ docker_image_logwire_exe }}"]
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

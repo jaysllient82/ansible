@@ -1,0 +1,18 @@
+version: '3'
+services:
+  redis:
+    image: {{ docker_image_redis_name }} 
+    ports:
+      - "{{ host_redis_port }}:{{ docker_image_redis_port }}"
+    volumes:
+      - {{ docker_image_redis_local_main_path }}/{{ docker_image_redis_local_conf_path}}/redis.conf:/etc/redis/redis.conf
+      - {{ docker_image_redis_local_main_path }}/{{ docker_image_redis_local_data_path}}:/data
+    container_name: {{ docker_image_redis_alias_name }}
+    entrypoint: ["redis-server","/etc/redis/redis.conf"]
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

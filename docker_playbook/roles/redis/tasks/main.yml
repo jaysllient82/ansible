@@ -1,0 +1,33 @@
+---
+# tasks file for redis
+- name: create folder
+  file:  
+    path: "{{ docker_image_redis_local_main_path }}/{{ item }}"
+    state: directory
+  with_items:
+  - "{{ docker_image_redis_local_data_path }}"
+  - "{{ docker_image_redis_local_conf_path }}"
+  - "{{ docker_image_redis_local_packages_path }}"
+
+- name: template copy
+  template:
+    src: redis.conf
+    dest: "{{ docker_image_redis_local_main_path }}/{{ docker_image_redis_local_conf_path }}/redis.conf"
+
+- name: template copy
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_redis_local_main_path }}/docker-compose.yml"
+  tags: compose
+
+- name: copy img package
+  copy:
+    src: "{{ docker_image_package_name }}"
+    dest: "{{ docker_image_redis_local_main_path }}/{{ docker_image_redis_local_packages_path}}"
+
+- name: load img package
+  command: "docker load --input {{ docker_image_redis_local_main_path }}/{{ docker_image_redis_local_packages_path}}/{{ docker_image_package_name }} "
+
+- name: docker run 
+  command: "chdir={{ docker_image_redis_local_main_path }} docker-compose up -d"
+  tags: run

@@ -1,0 +1,56 @@
+---
+# tasks file for postgresql
+- name: create folder
+  file:  
+    path: "{{ docker_image_postgresql_local_main_path }}/{{ item }}"
+    state: directory
+  with_items:
+  - "{{ docker_image_postgresql_local_data_path }}"
+  - "{{ docker_image_postgresql_local_packages_path }}"
+
+- name: copy img package
+  copy:
+    src: "{{ docker_image_package_name }}"
+    dest: "{{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_packages_path}}"
+
+- name: load img package
+  command: "docker load --input {{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_packages_path}}/{{ docker_image_package_name }} "
+
+- name: copy Dockerfile
+  copy:
+    src: Dockerfile
+    dest: "{{ docker_image_postgresql_local_main_path }}"
+
+- name: template copy createdb.sql
+  template:
+    src: createdb.sql
+    dest: "{{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_packages_path}}"
+
+- name: template copy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_postgresql_local_main_path }}/docker-compose.yml"
+
+- name: docker build
+  command: "chdir={{ docker_image_postgresql_local_main_path }} docker build -t {{ docker_image_postgresql_name }} ."
+
+- name: docker run 
+  command: "chdir={{ docker_image_postgresql_local_main_path }} docker-compose up -d"
+  tags: run
+
+- name: template copy
+  template:
+    src: "{{ item }}"
+    dest: "{{ docker_image_postgresql_local_main_path }}/data"
+  with_items:
+  - postgresql.conf
+  - pg_hba.conf
+  tags: test1
+
+- name: restart postgresql
+  command: "docker restart {{ docker_image_postgresql_alias_name }}"
+  tags: test2
+
+- name: run createdb.sql
+  command: "docker exec {{ docker_image_postgresql_alias_name }} /bin/bash /tmp/createdb.sql"
+  tags: test3    

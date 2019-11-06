@@ -1,0 +1,50 @@
+---
+# tasks file for docker
+- name: stop firewall
+  service:
+    name: firewalld
+    state: stopped
+
+- name: copy files 
+  copy:
+    src: "{{ item }}"
+    dest: /usr/bin 
+    mode: 0777
+  with_items:
+    - docker 
+    - docker-containerd
+    - docker-containerd-ctr
+    - docker-containerd-shim
+    - dockerd
+    - docker-init
+    - docker-proxy
+    - docker-runc
+
+- name: copy docker-compose
+  copy:
+    src: docker-compose
+    dest: /usr/local/bin
+    mode: 0777
+
+
+- name: copy service
+  copy:
+    src: docker.service
+    dest: /etc/systemd/system/docker.service
+    mode: 0777
+
+- name: enable docker by system on
+  command: "systemctl enable docker.service"
+  notify: restart docker
+
+- meta: flush_handlers
+
+- name: creat docker bridge
+  command: "docker network create --driver=bridge --subnet=172.200.0.0/24 greaconsulting"
+
+
+
+
+
+
+

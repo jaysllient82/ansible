@@ -1,0 +1,17 @@
+version: '3'
+services:
+  postgresql:
+    image: {{ docker_image_postgresql_name }}
+    ports:
+      - "{{ host_postgresql_port }}:{{ docker_image_postgresql_port }}"
+    volumes:
+      - {{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_data_path}}:/var/lib/postgresql/data
+    container_name: {{ docker_image_postgresql_alias_name }}
+    environment:
+      - POSTGRES_PASSWORD={{ docker_image_postgresql_password }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+

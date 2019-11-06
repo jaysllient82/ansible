@@ -1,0 +1,65 @@
+---
+# tasks file for logwire
+
+- name: create folder
+  file:
+    path: "{{ docker_image_logwire_local_main_path }}/{{ item }}"
+    state: directory
+  with_items:
+  - "{{ docker_image_logwire_local_data_path }}"
+  - "{{ docker_image_logwire_local_packages_path }}"
+
+- name: copy logwire data
+  copy:
+    src: "{{ docker_image_logwire_local_data_path }}/"
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path }}" 
+
+
+- name: template logwire.conf
+  template:
+    src: "{{ docker_image_logwire_conf }}"
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path}}/"
+
+- name: copy jdk tar 
+  copy: 
+    src: "jdk/{{ jdk_package_name }}"
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_packages_path}}/{{ jdk_package_name }}"
+
+- name: template application.properties
+  template:
+    src: application.properties
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path}}/config/"
+
+- name: template docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_logwire_local_main_path }}/docker-compose.yml"
+
+
+- name: copy img package
+  copy:
+    src: "centos7/{{ docker_image_package_name }}"
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_packages_path}}"
+
+- name: load img package
+  command: "docker load --input {{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_packages_path}}/{{ docker_image_package_name }} "
+
+
+- name: copy Dockerfile
+  template:
+    src: Dockerfile
+    dest: "{{ docker_image_logwire_local_main_path }}"
+
+- name: docker build 
+  command: "chdir={{ docker_image_logwire_local_main_path }} docker build -t {{ docker_image_logwire_name }} ."
+
+- name: data files privilege
+  file:
+    path: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path }}"
+    mode: 0777
+    recurse: yes
+  tags: test1
+
+- name: docker run 
+  command: "chdir={{ docker_image_logwire_local_main_path }} docker-compose up -d"
+  tags: run
