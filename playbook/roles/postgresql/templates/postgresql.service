@@ -1,0 +1,13 @@
+[Unit]
+Description=andrew.zhao 
+
+[Service]
+ExecStart=/bin/bash -c " sudo su - postgres -c ' \
+    {{ postgresql_path }}/bin/pg_ctl \
+    -D {{ postgresql_data_path }} \
+    -l {{ postgresql_log_path }}/{{ postgresql_log_file }}  start '"
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

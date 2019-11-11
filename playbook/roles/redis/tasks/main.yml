@@ -1,0 +1,140 @@
+---
+# tasks file for redis
+- name: install tools
+  yum:  
+    name: [wget,gcc,make,tcl,expect]
+    state: present
+  tags: test
+
+- name: create user
+  user:
+    name: "redis"
+    password: "{{ 'GreaRedis' | password_hash('sha512') }}"
+    state: present
+  tags: test
+
+- name: wget redis packages
+  get_url:
+    url: http://download.redis.io/releases/{{ redis_package_version }}.tar.gz
+    dest: /tmp
+  when: online_install == "yes"
+  tags: test
+
+- name: copy files to remote server
+  copy:
+    src: "{{ redis_package_version }}.tar.gz"
+    dest: /tmp
+    mode: 0777
+  when: online_install == "no"
+  tags: test
+
+- name: decompress package
+  unarchive:
+    copy: no
+    src: "/tmp/{{ redis_package_version }}.tar.gz"
+    dest: /tmp
+    mode: 0777
+  tags: test
+
+- name: make 
+  command: "chdir=/tmp/{{ redis_package_version }} make "
+  tags: test
+
+- name: make test 
+  command: "chdir=/tmp/{{ redis_package_version }} make test "
+  tags: test2
+
+- name: make install
+  command: "chdir=/tmp/{{ redis_package_version }} make install "
+  tags: test2
+
+- name: edit tcp connection
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "net.core.somaxconn"
+    line: "net.core.somaxconn = 2048"
+    state: present
+
+- name: edit overcommit_memory 
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "vm.overcommit_memory"
+    line: "vm.overcommit_memory = 1"
+    state: present
+
+- name: run sysctl
+  shell: "sysctl -p"
+
+- name: create redis.log
+  file:
+    path: "{{ redis_log_path }}"
+    mode: 0777
+    state: touch
+
+
+#- name: template redis_init
+#  template:
+#    src: redis_init.sh
+#    dest: /tmp/{{ redis_package_version }}/utils/
+#    mode: 0777
+
+#- name: redis_init
+#  command: "/tmp/{{ redis_package_version}}/utils/redis_init.sh"
+
+- name: open firewall tcp port
+  command: "firewall-cmd --add-port={{ redis_port }}/tcp --permanent"
+  notify: restart firewall
+
+- name: privilege of redis
+  file:
+    path: "/usr/local/bin/{{ item }}"
+    mode: 0744
+    owner: redis
+  with_items:
+    - redis-benchmark
+    - redis-check-aof
+    - redis-check-rdb
+    - redis-cli
+    - redis-server
+    - redis-sentinel
+
+#- name: edit visudo
+#  lineinfile:
+#    dest: /etc/sudoers
+#    regexp: "redis*."
+#    line: "redis    ALL=(ALL)      NOPASSWD:ALL"
+#    state: present
+#    mode: 0110
+
+
+- name: template redis service
+  template:
+    src: redis.service
+    dest: "/etc/systemd/system/redis.service"
+    mode: 0777
+
+- name: service on sys load
+  service:
+    name: redis
+    enabled: yes
+
+- name: create folder conf
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0711
+    owner: redis
+    recurse: yes
+  with_items:
+    - "{{ redis_conf_path }}"
+    - "{{ redis_data_path }}"
+
+- name: template redis.conf
+  template:
+    src: redis.conf
+    dest: "{{ redis_conf_path }}/{{ redis_conf_file }}"
+    mode: 0777
+  notify: start redis
+
+- meta: flush_handlers
+

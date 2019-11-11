@@ -1,0 +1,11 @@
+[Unit]
+Description=andrew.zhao
+
+[Service]
+ExecStart=/bin/bash -c " sudo su - redis -c '/usr/local/bin/redis-server {{ redis_conf_path }}/{{ redis_conf_file }}'"
+ExecStartPre=/bin/bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+---
+# vars file for postgresql
+online_install: 'no'
+postgresql_password: "greaPSQL11"
+postgresql_initdb_name: logwire
+postgresql_download_url: https://ftp.postgresql.org/pub/source/v11.0/postgresql-11.0.tar.gz
+postgresql_package_version: 'postgresql-11.0'
+postgresql_port: 5432
+postgresql_path: /usr/local/postgresql
+postgresql_data_path: /var/postgresql/data
+postgresql_log_path: /var/postgresql/data/logs
+postgresql_log_file: server.log

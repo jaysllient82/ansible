@@ -1,0 +1,142 @@
+---
+# tasks file for postgresql
+- name: install tools
+  yum:  
+    name: [readline,readline-devel,openssl,openssl-devel,zlib,zlib-devel,gcc,make,expect]
+    state: present
+
+- name: create user
+  user:
+    name: "postgres"
+    password: "{{ 'GreaPostgresql' | password_hash('sha512') }}"
+    state: present
+
+- name: wget postgresql packages
+  get_url:
+    url: "/tmp/{{ postgresql_download_url }}"
+    dest: /tmp
+  when: online_install == "yes"
+
+- name: copy files to remote server
+  copy:
+    src: "{{ postgresql_package_version }}.tar.gz"
+    dest: /tmp
+    mode: 0777
+  when: online_install == "no"
+
+- name: decompress package
+  unarchive:  
+    copy: no
+    src: "/tmp/{{ postgresql_package_version }}.tar.gz"
+    dest: /tmp
+    mode: 0777
+
+- name: create folder
+  file:
+    path: "{{ postgresql_path }}"
+    state: directory
+    mode: 0711
+    owner: postgres
+
+- name: config
+  command: "chdir=/tmp/{{ postgresql_package_version }} ./configure --prefix={{ postgresql_path }}"
+
+- name: make 
+  command: "chdir=/tmp/{{ postgresql_package_version }} make "
+
+
+- name: make install
+  command: "chdir=/tmp/{{ postgresql_package_version }} make install "
+
+- name: edit profile stage1
+  lineinfile:
+    dest: /etc/profile
+    regexp: "export PG_HOME*."
+    line: "export PG_HOME={{ postgresql_path }}"
+    state: present
+
+- name: edit profile stage2
+  lineinfile:
+    dest: /etc/profile
+    regexp: 'PG_HOME/bin*.'
+    line:  'export PATH="$PG_HOME/bin:$PATH"'
+    state: present
+
+- name: source /etc/profile
+  shell: "source /etc/profile"
+
+- name: create folder data
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0711
+    owner: postgres
+    recurse: yes
+  with_items:
+    - "{{ postgresql_data_path }}"
+ 
+- name: initdb
+  command: "{{ postgresql_path }}/bin/initdb -D {{ postgresql_data_path }}"
+  become: true
+  become_user: postgres
+  become_method: su
+
+- name: create folder logs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0711
+    owner: postgres
+    recurse: yes
+  with_items:
+    - "{{ postgresql_log_path }}"
+
+- name: templates of postgresql
+  template:
+    src: "{{ item }}"
+    dest: "{{ postgresql_data_path }}"
+  with_items:
+    - pg_hba.conf
+    - postgresql.conf
+
+- name: open firewall tcp port
+  command: "firewall-cmd --add-port={{ postgresql_port }}/tcp --permanent"
+  notify: restart firewall
+
+- name: start psql
+  command: "chdir={{ postgresql_data_path }} {{ postgresql_path }}/bin/pg_ctl -D {{ postgresql_data_path }} -l {{ postgresql_log_file }} start"
+  become: true
+  become_user: postgres
+  become_method: sudo
+
+- name: template postgresql_init
+  template:
+    src: postgresql_init.sh
+    dest: "/tmp/{{ postgresql_package_version }}/"
+    mode: 0777
+
+- name: init postgresql
+  command: "/tmp/{{ postgresql_package_version }}/postgresql_init.sh"
+  become: true
+  become_user: postgres
+  become_method: sudo
+
+- name: create database
+  command: "chdir=/tmp {{ postgresql_path }}/bin/createdb {{ postgresql_initdb_name }}"
+  become: true
+  become_user: postgres
+  become_method: sudo
+
+- name: template postgresql service
+  template:
+    src: postgresql.service
+    dest: "/etc/systemd/system/postgresql.service"
+    mode: 0777
+
+- name: service on sys load
+  service:
+    name: postgresql
+    enabled: yes 
+
+
+

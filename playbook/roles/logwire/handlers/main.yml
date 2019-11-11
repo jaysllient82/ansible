@@ -1,0 +1,11 @@
+---
+# handlers file for logwire
+- name: restart firewall
+  service:
+    name: "firewalld.service"
+    state: restarted
+- name: restart logwire
+  service:
+    name: "logwire.service"
+    state: restarted
+

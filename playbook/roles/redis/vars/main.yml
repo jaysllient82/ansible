@@ -1,0 +1,11 @@
+---
+# vars file for redis
+online_install: 'no'
+redis_package_version: 'redis-5.0.3'
+redis_port: 6379
+redis_pass: 'greaconsulting'
+redis_conf_path: '/etc/redis'
+redis_conf_file: 'redis.conf'
+redis_log_path: '/var/log/redis.log'
+redis_data_path: '/var/lib/redis/data'
+

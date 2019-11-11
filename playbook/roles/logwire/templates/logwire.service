@@ -1,0 +1,11 @@
+[Unit]
+Description=Logwire Application
+After=syslog.target
+
+[Service]
+User=logwire
+ExecStart={{ logwire_main_path }}/{{ logwire_exe }}
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

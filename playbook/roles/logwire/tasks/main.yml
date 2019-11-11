@@ -1,0 +1,76 @@
+---
+# tasks file for logwire---
+- name: create user
+  user:
+    name: "{{ logwire_user }}"
+    password: "{{ '{{ logwire_password }}' | password_hash('sha512') }}"
+    state: present
+
+- name: create folder conf
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0711
+    owner: "{{ logwire_user }}"
+    recurse: yes
+  with_items:
+    - "{{ logwire_main_path }}"
+    - /tmp/packages
+
+- name: decompress package
+  unarchive:
+    copy: yes
+    src: "jdk/{{ jdk_package_version }}.tar.gz"
+    dest: /tmp/packages
+    mode: 0777
+
+- name: jdk 
+  shell: "chdir=/tmp/packages ls | grep jdk | awk '{print $0}' | xargs -n1 -I {} mv  /tmp/packages/{} /usr/local/jdk"
+
+- name: /tmp/tomcat setting
+  command: 'echo "x /tmp/tomcat*" >> /usr/lib/tmpfiles.d/tmp.conf'
+
+- name: env for java
+  lineinfile:
+    dest: /etc/profile
+    regexp: "{{ item.reg }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { reg: 'export JAVA_HOME=/usr/local/jdk/', line: 'export JAVA_HOME=/usr/local/jdk/' }
+    - { reg: 'export PATH=$JAVA_HOME/bin:$PATH', line: 'export PATH=$JAVA_HOME/bin:$PATH' }
+    - { reg: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH', line: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH' }
+
+- name: source /etc/profile
+  shell: "source /etc/profile"
+
+- name: copy files to remote server
+  copy:
+    src: "data/"
+    dest: "{{ logwire_main_path }}/"
+    mode: 0777
+
+- name: template to remote server
+  template:
+    src: "{{ item.name }}"
+    dest: "{{ item.ds }}"
+  with_items:
+    - { name: 'application.properties', ds: '{{ logwire_main_path }}/config' }
+    - { name: 'logwire-start.conf', ds: '{{logwire_main_path }}'}
+
+- name: open firewall tcp port
+  command: "firewall-cmd --add-port={{ logwire_port }}/tcp --permanent"
+  notify: restart firewall
+
+- name: template logwire service
+  template:
+    src: logwire.service
+    dest: "/etc/systemd/system/logwire.service"
+    mode: 0777
+  notify: restart logwire
+
+- name: service on sys load
+  service:
+    name: logwire
+    enabled: yes
+

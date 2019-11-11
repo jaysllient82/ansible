@@ -1,0 +1,7 @@
+---
+# handlers file for postgresql
+- name: restart firewall
+  service:
+    name: "firewalld.service"
+    state: restarted
+

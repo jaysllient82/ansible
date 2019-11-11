@@ -1,0 +1,12 @@
+---
+# handlers file for redis
+- name: start redis
+  service: 
+    name: "redis.service"
+    state: started
+
+- name: restart firewall
+  service:
+    name: "firewalld.service"
+    state: restarted
+
