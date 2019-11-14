@@ -1,0 +1,12 @@
+---
+# vars file for prometheus
+docker_image_prometheus_port: 9090
+docker_image_prometheus_alias_name: prometheus
+docker_image_prometheus_name: prom/prometheus
+docker_image_prometheus_local_main_path: /grea/prometheus
+docker_image_prometheus_local_data_path: data
+docker_image_prometheus_local_config_file: prometheus.yml
+docker_image_prometheus_local_alter_file: alert.rules
+
+
+host_prometheus_port: 9090

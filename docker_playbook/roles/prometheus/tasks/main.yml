@@ -1,0 +1,28 @@
+---
+# tasks file for prometheus
+- name: create folder
+  file:  
+    path: "{{ docker_image_prometheus_local_main_path }}/{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+  - "{{ docker_image_prometheus_local_data_path }}"
+
+- name: chmod folder main
+  file:  
+    path: "{{ docker_image_prometheus_local_main_path }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+
+- name: template copy
+  template:
+    src: "{{ item }}"
+    dest: "{{ docker_image_prometheus_local_main_path }}/{{ item }}"
+  with_items:
+  - docker-compose.yml
+  - prometheus.yml
+  - alert.rules
+
+- name: docker run 
+  command: "chdir={{ docker_image_prometheus_local_main_path }} docker-compose up -d"
