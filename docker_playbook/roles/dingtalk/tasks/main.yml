@@ -1,0 +1,17 @@
+---
+# tasks file for dingtalk
+- name: create folder
+  file:  
+    path: "{{ docker_image_dingtalk_local_main_path }}"
+    state: directory
+    mode: 0777
+
+- name: template copy
+  template:
+    src: "{{ item }}"
+    dest: "{{ docker_image_dingtalk_local_main_path }}/{{ item }}"
+  with_items:
+  - docker-compose.yml
+
+- name: docker run 
+  command: "chdir={{ docker_image_dingtalk_local_main_path }} docker-compose up -d"

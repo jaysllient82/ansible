@@ -23,6 +23,7 @@
   - docker-compose.yml
   - prometheus.yml
   - alert.rules
+  - sd_config
 
 - name: docker run 
   command: "chdir={{ docker_image_prometheus_local_main_path }} docker-compose up -d"

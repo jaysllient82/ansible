@@ -1,0 +1,15 @@
+version: '3'
+services:
+  dingtalk:
+    image: {{ docker_image_dingtalk_name }} 
+    ports:
+      - "{{ host_dingtalk_port }}:{{ docker_image_dingtalk_port }}"
+    container_name: {{ docker_image_dingtalk_alias_name }}
+    command: --ding.profile="{{ docker_image_dingtalk_webhook_name }}={{ docker_image_dingtalk_webhook_url }}"
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

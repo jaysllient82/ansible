@@ -42,9 +42,21 @@
 
 ## db-[99:101]-node.example.com
 [test]
-192.168.0.232 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'
+119.3.29.219 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13322
 #192.168.0.235 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'
 [demo]
 121.36.151.23 ansible_ssh_user=root ansible_ssh_pass='Grea1234'
-
-
+[logwire]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[redis]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[postgresql]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[elasticsearch]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[rabbitmq]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[kibana]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[nginx]
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22

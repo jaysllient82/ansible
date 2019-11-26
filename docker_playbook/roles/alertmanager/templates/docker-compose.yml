@@ -1,0 +1,16 @@
+version: '3'
+services:
+  alertmanager:
+    image: {{ docker_image_alertmanager_name }} 
+    ports:
+      - "{{ host_alertmanager_port }}:{{ docker_image_alertmanager_port }}"
+    volumes:
+      - {{ docker_image_alertmanager_local_main_path }}/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    container_name: {{ docker_image_alertmanager_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

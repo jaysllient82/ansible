@@ -1,0 +1,18 @@
+version: '3'
+services:
+  node-exporter:
+    image:  {{ docker_image_node_exporter_name }}
+    ports:
+      - "{{ host_node_exporter_port }}:{{ docker_image_node_exporter_port }}"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    container_name: {{ docker_image_node_exporter_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

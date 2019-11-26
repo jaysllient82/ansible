@@ -1,0 +1,22 @@
+---
+# tasks file for kibana---
+- name: create folder
+  file:  
+    path: "{{ docker_image_kibana_local_main_path }}"
+    state: directory
+
+- name: template copy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_kibana_local_main_path }}/docker-compose.yml"
+  tags: compose
+
+- name: template copy kibana.yml
+  template:
+    src: kibana.yml
+    dest: "{{ docker_image_kibana_local_main_path }}/kibana.yml"
+  tags: compose
+
+- name: docker run 
+  command: "chdir={{ docker_image_kibana_local_main_path }} docker-compose up -d"
+  tags: run

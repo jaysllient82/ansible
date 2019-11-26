@@ -1,4 +1,4 @@
 ---
-- hosts: test
+- hosts: logwire
   roles:
   - logwire

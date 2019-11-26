@@ -1,0 +1,20 @@
+version: '3'
+services:
+  dingtalk:
+    image: {{ docker_image_cadvisor_name }} 
+    ports:
+      - "{{ host_cadvisor_port }}:{{ docker_image_cadvisor_port }}"
+    container_name: {{ docker_image_cadvisor_alias_name }}
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+
+

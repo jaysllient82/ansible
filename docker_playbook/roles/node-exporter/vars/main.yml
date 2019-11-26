@@ -1,0 +1,11 @@
+---
+# vars file for node-exporter
+docker_image_node_exporter_local_main_path: /grea/node-exporter
+docker_image_node_exporter_name: prom/node-exporter
+
+
+host_node_exporter_port: 9100
+docker_image_node_exporter_port: 9100
+
+docker_image_node_exporter_alias_name: node_exporter
+

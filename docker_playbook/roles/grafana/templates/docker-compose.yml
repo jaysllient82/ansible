@@ -1,0 +1,14 @@
+version: '3'
+services:
+  grafana:
+    image: {{ docker_image_grafana_name }} 
+    ports:
+      - "{{ host_grafana_port }}:{{ docker_image_grafana_port }}"
+    volumes:
+      - {{ docker_image_grafana_local_main_path }}:/var/lib/grafana
+    container_name: {{ docker_image_grafana_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true

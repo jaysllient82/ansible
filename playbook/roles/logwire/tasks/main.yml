@@ -6,16 +6,17 @@
     password: "{{ '{{ logwire_password }}' | password_hash('sha512') }}"
     state: present
 
-- name: create folder conf
+- name: create folder 
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0711
-    owner: "{{ logwire_user }}"
-    recurse: yes
+    mode: 0755
+    owner: logwire
+    #recurse: yes
   with_items:
     - "{{ logwire_main_path }}"
-    - /tmp/packages
+   # - /tmp/packages
+  tags: us
 
 - name: decompress package
   unarchive:
@@ -48,15 +49,18 @@
   copy:
     src: "data/"
     dest: "{{ logwire_main_path }}/"
-    mode: 0777
+    mode: 0755
+  tags: us
 
 - name: template to remote server
   template:
     src: "{{ item.name }}"
     dest: "{{ item.ds }}"
+    mode: 0644
   with_items:
     - { name: 'application.properties', ds: '{{ logwire_main_path }}/config' }
     - { name: 'logwire-start.conf', ds: '{{logwire_main_path }}'}
+  tags: us
 
 - name: open firewall tcp port
   command: "firewall-cmd --add-port={{ logwire_port }}/tcp --permanent"

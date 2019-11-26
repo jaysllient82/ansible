@@ -1,0 +1,13 @@
+---
+# vars file for dingtalk
+docker_image_dingtalk_local_main_path: /grea/dingtalk
+docker_image_dingtalk_name: timonwong/prometheus-webhook-dingtalk:v0.3.0
+
+
+host_dingtalk_port: 8060
+docker_image_dingtalk_port: 8060
+
+docker_image_dingtalk_alias_name: dingtalk
+docker_image_dingtalk_webhook_name: webhook
+docker_image_dingtalk_webhook_url: "https://oapi.dingtalk.com/robot/send?access_token=ed6501ed39d19506af7f14308a4fffa7543c3a441f2bd8e34520fdd5d824dc80"
+

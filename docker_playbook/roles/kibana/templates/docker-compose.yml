@@ -1,0 +1,14 @@
+version: '3'
+services:
+  kibana:
+    image: {{ docker_image_kibana_name }}
+    ports:
+      - "{{ host_kibana_port }}:{{ docker_image_kibana_port }}"
+    volumes:
+      - {{ docker_image_kibana_local_main_path }}/kibana.yml:/usr/share/kibana/config/kibana.yml
+    container_name: {{ docker_image_kibana_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true

@@ -1,0 +1,23 @@
+---
+# tasks file for grafana
+- name: create folder
+  file:  
+    path: "{{ docker_image_grafana_local_main_path }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+
+- name: template copy
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_grafana_local_main_path }}/docker-compose.yml"
+  tags: compose
+
+- name: docker run 
+  command: "chdir={{ docker_image_grafana_local_main_path }} docker-compose up -d"
+  tags: run
+
+- name: docker restart
+  command: "docker restart {{ docker_image_grafana_alias_name }}"
+
+

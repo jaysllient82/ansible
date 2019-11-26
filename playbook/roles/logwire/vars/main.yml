@@ -2,7 +2,7 @@
 # vars file for logwire---
 # vars file for redis
 jdk_package_version: 'jdk-8u231-linux-x64'
-logwire_main_path: '/app/logwire'
+logwire_main_path: '/u01/logwire-YWJK'
 
 logwire_user: 'logwire'
 logwire_password: 'greaLOGWIRE'

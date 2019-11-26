@@ -1,0 +1,18 @@
+version: '3'
+services:
+  elasticsearch:
+    image: {{ docker_image_elasticsearch_name }}
+    ports:
+      - "{{ host_elasticsearch_port }}:{{ docker_image_elasticsearch_port }}"
+      - "{{ host_elasticsearch_cluster_port }}:{{ docker_image_elasticsearch_cluster_port }}"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - {{ docker_image_elasticsearch_local_main_path }}/{{ docker_image_elasticsearch_local_data_path }}:/usr/share/elasticsearch/data
+    container_name: {{ docker_image_elasticsearch_alias_name }}
+    environment:
+      discovery.type: single-node
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true

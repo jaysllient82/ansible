@@ -1,0 +1,16 @@
+version: '3'
+services:
+  nginx:
+    build: {{ docker_image_nginx_local_main_path }}/
+    image: {{ docker_image_nginx_name }}
+    ports:
+      - "{{ host_nginx_port }}:{{ docker_image_nginx_port }}"
+    volumes:
+      - {{ docker_image_nginx_local_main_path }}/kibana.conf:/etc/nginx/conf.d/nginx.conf
+    container_name: {{ docker_image_nginx_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+

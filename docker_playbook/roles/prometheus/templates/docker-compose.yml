@@ -8,6 +8,8 @@ services:
       - {{ docker_image_prometheus_local_main_path }}/{{ docker_image_prometheus_local_config_file }}:/etc/prometheus/prometheus.yml
       - {{ docker_image_prometheus_local_main_path }}/{{ docker_image_prometheus_local_data_path }}:/prometheus
       - {{ docker_image_prometheus_local_main_path }}/{{ docker_image_prometheus_local_alter_file }}:/etc/prometheus/alert.rules
+      - {{ docker_image_prometheus_local_main_path }}/sd_config:/etc/prometheus/sd_config
+      - /etc/localtime:/etc/localtime:ro
     container_name: {{ docker_image_prometheus_alias_name }}
     networks:
       - greaconsulting

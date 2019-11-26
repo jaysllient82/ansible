@@ -1,0 +1,28 @@
+---
+# tasks file for nginx---
+- name: create folder
+  file:  
+    path: "{{ docker_image_nginx_local_main_path }}"
+    state: directory
+
+- name: template copy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_image_nginx_local_main_path }}/docker-compose.yml"
+  tags: compose
+
+- name: template copy Dockerfile
+  template:
+    src: Dockerfile
+    dest: "{{ docker_image_nginx_local_main_path }}/Dockerfile"
+  tags: compose
+
+- name: template copy kibana.conf
+  template:
+    src: kibana.conf
+    dest: "{{ docker_image_nginx_local_main_path }}/kibana.conf"
+  tags: compose
+
+- name: docker run 
+  command: "chdir={{ docker_image_nginx_local_main_path }} docker-compose up -d"
+  tags: run

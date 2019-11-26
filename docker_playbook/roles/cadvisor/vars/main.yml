@@ -1,0 +1,11 @@
+---
+# vars file for cadvisor
+docker_image_cadvisor_local_main_path: /grea/cadvisor
+docker_image_cadvisor_name: google/cadvisor:latest
+
+
+host_cadvisor_port: 8080
+docker_image_cadvisor_port: 8080
+
+docker_image_cadvisor_alias_name: cadvisor
+

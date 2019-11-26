@@ -7,8 +7,8 @@ docker_image_logwire_user: 'logwire'
 docker_image_logwire_password: 'greaLOGWIRE'
 docker_image_logwire_name: 'logwire'
 docker_image_logwire_alias_name: logwire
-docker_image_logwire_exe: 'logwire-start.jar'
-docker_image_logwire_conf: 'logwire-start.conf'
+docker_image_logwire_exe: 'logwire-starter.jar'
+docker_image_logwire_conf: 'logwire-starter.conf'
 
 docker_image_logwire_local_main_path: /grea/logwire
 docker_image_logwire_local_packages_path: packages

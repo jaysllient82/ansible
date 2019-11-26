@@ -1,0 +1,13 @@
+---
+# vars file for alertmanager
+docker_image_alertmanager_local_main_path: /grea/alertmanager
+docker_image_alertmanager_name: prom/alertmanager:latest
+
+
+host_alertmanager_port: 9093
+docker_image_alertmanager_port: 9093
+
+docker_image_alertmanager_alias_name: alertmanager
+
+dingtalk_ip: 192.168.224.133
+dingtalk_port: 8060
