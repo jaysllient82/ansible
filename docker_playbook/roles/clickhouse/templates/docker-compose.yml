@@ -1,0 +1,16 @@
+version: '3'
+services:
+  {{ dockercompose_service_name }}:
+    image: {{ docker_image_clickhouse_name }} 
+    ports:
+      - "{{ host_clickhouse_port }}:{{ docker_image_clickhouse_port }}"
+      - "{{ host_clickhouse_syn_port }}:{{ docker_image_clickhouse_syn_port }}"
+      - "{{ host_clickhouse_http_port }}:{{ docker_image_clickhouse_http_port }}"
+    container_name: {{ docker_image_clickhouse_alias_name }}
+    volumes:
+      - {{ docker_image_clickhouse_local_main_path }}/{{ docker_image_clickhouse_local_data_path }}:/var/lib/clickhouse
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true

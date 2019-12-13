@@ -9,3 +9,7 @@ docker_image_nginx_local_main_path: /grea/nginx
 host_nginx_port: 8888
 docker_image_kibana_ip: kibana
 docker_image_kibana_port: 5601
+
+docker_compose_service_name: nginx
+
+

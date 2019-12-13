@@ -1,0 +1,27 @@
+---
+# tasks file for cf_logwire_logwire---
+- name: template copy
+  template:
+    src: "{{ item }}"
+    dest: "{{ logwire_config_path }}/{{ item }}"
+  with_items:
+  - logback.xml
+
+- name: edit application.properties
+  lineinfile:
+    dest: "{{ logwire_config_path}}/application.properties"
+    regexp: "{{ item.reg }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items: '{{ application_list }}'
+  tags: test
+
+- name: copy logstash package
+  copy:
+    src: "{{ logstash_package_name }}"
+    dest: "{{ logstash_package_path }}/{{ item }}"
+  with_items:
+    - "{{ logstash_package_name }}"
+
+- name: docker restart {{ logwire_alias_name }}
+  command: "docker restart {{ logwire_alias_name }}"

@@ -3,6 +3,7 @@
 docker_image_dingtalk_local_main_path: /grea/dingtalk
 docker_image_dingtalk_name: timonwong/prometheus-webhook-dingtalk:v0.3.0
 
+docker_compose_service_name: dingtalk
 
 host_dingtalk_port: 8060
 docker_image_dingtalk_port: 8060

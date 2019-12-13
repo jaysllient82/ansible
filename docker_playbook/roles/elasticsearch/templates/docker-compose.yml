@@ -1,6 +1,6 @@
 version: '3'
 services:
-  elasticsearch:
+  {{ docker_compose_service_name }}:
     image: {{ docker_image_elasticsearch_name }}
     ports:
       - "{{ host_elasticsearch_port }}:{{ docker_image_elasticsearch_port }}"

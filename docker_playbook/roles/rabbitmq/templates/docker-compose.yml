@@ -1,13 +1,13 @@
 version: '3'
 services:
-  rabbitmq:
+  {{ docker_compose_service_name }}:
     image: {{ docker_image_rabbitmq_name }} 
     ports:
       - "{{ host_rabbitmq_port }}:{{ docker_image_rabbitmq_port }}"
       - "{{ host_rabbitmq_manage_port }}:{{ docker_image_rabbitmq_manage_port }}"
     container_name: {{ docker_image_rabbitmq_alias_name }}
     volumes:
-      - {{ docker_image_rabbitmq_local_main_path }}/data:/var/lib/rabbitmq
+      - {{ docker_image_rabbitmq_local_main_path }}/{{ docker_image_rabbitmq_local_data_path }}:/var/lib/rabbitmq
       - {{ docker_image_rabbitmq_local_main_path }}/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
     networks:
       - greaconsulting

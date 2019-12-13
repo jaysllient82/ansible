@@ -1,6 +1,6 @@
 version: '3'
 services:
-  grafana:
+  {{ docker_compose_service_name }}:
     image: {{ docker_image_grafana_name }} 
     ports:
       - "{{ host_grafana_port }}:{{ docker_image_grafana_port }}"

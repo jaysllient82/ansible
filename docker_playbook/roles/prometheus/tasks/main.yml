@@ -1,11 +1,13 @@
 ---
 # tasks file for prometheus
-- name: create folder
-  file:  
+- name: create folder 
+  file:
     path: "{{ docker_image_prometheus_local_main_path }}/{{ item }}"
     state: directory
     mode: 0777
   with_items:
+  - sd_config
+  - alert.rules
   - "{{ docker_image_prometheus_local_data_path }}"
 
 - name: chmod folder main
@@ -22,8 +24,15 @@
   with_items:
   - docker-compose.yml
   - prometheus.yml
-  - alert.rules
-  - sd_config
+  - prometheus.yml.sample
+  - alert.rules/node.rules
+  - alert.rules/node.rules.sample
+  - sd_config/docker.yml
+  - sd_config/docker.yml.sample
+  - sd_config/logwire.yml
+  - sd_config/logwire.yml.sample
+  - sd_config/node-exporter.yml
+  - sd_config/node-exporter.yml.sample
 
 - name: docker run 
   command: "chdir={{ docker_image_prometheus_local_main_path }} docker-compose up -d"

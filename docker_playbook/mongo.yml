@@ -1,0 +1,84 @@
+---
+- hosts: docker2
+  vars:
+    # mongdb初始化管理员用户
+    MONGO_INITDB_ROOT_USERNAME: "root"
+    # mongdb初始化管理员用户密码
+    MONGO_INITDB_ROOT_PASSWORD: "123456"
+    # mongdb初始化数据库名称
+    MONGO_INITDB_DATABASE: "admin"
+    # mongdb普通用户
+    MONGO_USER: mongo
+    # mongdb普通用户密码
+    MONGO_PWD: greaconsulting
+    # mongdb数据库名称
+    MONGO_DATABASE: "mongodb"
+    # mongdb服务端口
+    MONGO_PORT: "27017"
+    # mongdb基础目录
+    MONGO_BASE_DIR: "/grea/mongodb"
+    # mongodb部署方式：single.单机、replication.主从、replicaSet.副本集、sharding.分片
+    MONGO_DEPLOY_TYPE: "replicaSet"
+    # mongodb 副本集名称
+    MONGO_REPL_SET: logwire
+    # mongodb 密钥文件
+    MONGO_KEY_FILE: /opt/keyfile/mongodb-keyfile
+  tasks:
+    - name: 创建BASE目录
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ MONGO_BASE_DIR }}/db"
+        - "{{ MONGO_BASE_DIR }}/config"
+
+    - name: 上传mongodb初始化脚本
+      template:
+        src: "{{ item }}"
+        dest: "{{ MONGO_BASE_DIR }}/config/{{ item }}"
+        mode: 0755
+      with_items:
+        - mongodb-init-rs.sh
+        - mongodb-init-db.sh
+
+    - name: 上传mongodb秘钥文件
+      copy:
+        src: mongodb-keyfile
+        dest: "{{ MONGO_BASE_DIR }}/config/mongodb-keyfile"
+        mode: 0600
+        owner: "999"
+
+    - name: 删除旧docker容器
+      command: docker-compose -f docker-compose.yml down
+      args:
+        chdir: /tmp
+
+    - name: 上传docker-compose配置文件
+      template:
+        src: docker-compose.yml
+        dest: /tmp/docker-compose.yml
+
+    - name: 创建docker容器
+      command: docker-compose -f docker-compose.yml up -d
+      args:
+        chdir: /tmp
+
+    - name: 等待5秒，检测mongo服务是否启动
+      wait_for:
+        port: 27017
+        delay: 5
+      when: "groups.mongodb.index(inventory_hostname) == 0"
+
+    - name: 设置副本集配置
+      command: docker exec -it mongodb /bin/bash /opt/init-rs.sh
+      when: "groups.mongodb.index(inventory_hostname) == 0"
+
+    - name: 等待10秒，等待副本集设置完成
+      wait_for:
+        port: 27017
+        delay: 10
+      when: "groups.mongodb.index(inventory_hostname) == 0"
+
+    - name: 创建mongo用户信息
+      command: docker exec -it mongodb /bin/bash /opt/init-db.sh
+      when: "groups.mongodb.index(inventory_hostname) == 0"

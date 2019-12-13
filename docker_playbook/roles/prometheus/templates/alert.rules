@@ -1,8 +1,0 @@
-groups:
-- name: rules
-  interval: 10s
-  rules:
-  - alert: instance:node_cpu:avg_rate5m
-    expr: go_memstats_gc_sys_bytes > 0
-    labels:
-      metric_type: test

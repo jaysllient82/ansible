@@ -5,3 +5,5 @@ docker_image_grafana_port: 3000
 docker_image_grafana_local_main_path: /grea/grafana
 docker_image_grafana_alias_name: grafana
 host_grafana_port: 3000
+
+docker_compose_service_name: grafana

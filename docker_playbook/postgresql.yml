@@ -1,4 +1,4 @@
 ---
-- hosts: postgresql
+- hosts: docker2 
   roles:
   - postgresql

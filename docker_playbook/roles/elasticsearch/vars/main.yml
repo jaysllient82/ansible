@@ -2,7 +2,7 @@
 # vars file for elasticsearch
 docker_image_elasticsearch_port: 9200
 docker_image_elasticsearch_cluster_port: 9300
-docker_image_elasticsearch_name: elasticsearch:7.4.1
+docker_image_elasticsearch_name: elasticsearch:6.7.2
 docker_image_elasticsearch_alias_name: elasticsearch
 
 docker_image_elasticsearch_local_main_path: /grea/elasticsearch
@@ -10,3 +10,5 @@ docker_image_elasticsearch_local_data_path: data
 
 host_elasticsearch_port: 9200
 host_elasticsearch_cluster_port: 9300
+
+docker_compose_service_name: elasticsearch

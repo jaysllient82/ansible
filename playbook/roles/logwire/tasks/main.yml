@@ -5,6 +5,7 @@
     name: "{{ logwire_user }}"
     password: "{{ '{{ logwire_password }}' | password_hash('sha512') }}"
     state: present
+  when: logwire_user_create == "yes"
 
 - name: create folder 
   file:
@@ -15,7 +16,7 @@
     #recurse: yes
   with_items:
     - "{{ logwire_main_path }}"
-   # - /tmp/packages
+    - /tmp/packages
   tags: us
 
 - name: decompress package
@@ -24,9 +25,12 @@
     src: "jdk/{{ jdk_package_version }}.tar.gz"
     dest: /tmp/packages
     mode: 0777
+  when: jdk_install == "yes"
+    
 
 - name: jdk 
-  shell: "chdir=/tmp/packages ls | grep jdk | awk '{print $0}' | xargs -n1 -I {} mv  /tmp/packages/{} /usr/local/jdk"
+  shell: "chdir=/tmp/packages ls | grep jdk | awk '{print $0}' | xargs -n1 -I {} mv  /tmp/packages/{} {{ jdk_install_path }}"
+  when: jdk_install == "yes"
 
 - name: /tmp/tomcat setting
   command: 'echo "x /tmp/tomcat*" >> /usr/lib/tmpfiles.d/tmp.conf'
@@ -38,12 +42,14 @@
     line: "{{ item.line }}"
     state: present
   with_items:
-    - { reg: 'export JAVA_HOME=/usr/local/jdk/', line: 'export JAVA_HOME=/usr/local/jdk/' }
+    - { reg: 'export JAVA_HOME={{ jdk_install_path }}/', line: 'export JAVA_HOME={{ jdk_install_path }}/' }
     - { reg: 'export PATH=$JAVA_HOME/bin:$PATH', line: 'export PATH=$JAVA_HOME/bin:$PATH' }
     - { reg: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH', line: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH' }
+  when: jdk_install == "yes"
 
 - name: source /etc/profile
   shell: "source /etc/profile"
+  when: jdk_install == "yes"
 
 - name: copy files to remote server
   copy:
@@ -68,13 +74,13 @@
 
 - name: template logwire service
   template:
-    src: logwire.service
-    dest: "/etc/systemd/system/logwire.service"
+    src: "logwire.service"
+    dest: "/etc/systemd/system/{{ logwire_service_name }}"
     mode: 0777
   notify: restart logwire
 
 - name: service on sys load
   service:
-    name: logwire
+    name: "{{ logwire_service_name }}"
     enabled: yes
 

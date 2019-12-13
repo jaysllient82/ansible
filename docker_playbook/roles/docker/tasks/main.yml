@@ -27,6 +27,16 @@
     mode: 0777
   tags: test1
 
+- name: create folder
+  file:
+    path: /etc/docker
+    state: directory
+
+- name: copy daemon.json
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    mode: 0777
 
 - name: copy service
   copy:

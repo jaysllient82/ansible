@@ -1,8 +1,8 @@
 ---
-# vars file for rabbitmq
+# vars file for rabbitmq---
 docker_image_rabbitmq_local_main_path: /grea/rabbitmq
 docker_image_rabbitmq_name: rabbitmq:management
-
+docker_image_rabbitmq_local_data_path: data
 
 host_rabbitmq_port: 5672
 host_rabbitmq_manage_port: 15672
@@ -12,3 +12,4 @@ docker_image_rabbitmq_manage_port: 15672
 
 docker_image_rabbitmq_alias_name: rabbitmq
 
+docker_compose_service_name: rabbitmq

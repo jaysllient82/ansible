@@ -2,7 +2,7 @@
 # vars file for postgresql
 docker_image_postgresql_port: 5432
 docker_image_postgresql_password: "greaPSQL11"
-docker_image_postgresql_name: greaconsulting/postgresql:11
+docker_image_postgresql_name: postgresql:11
 docker_image_postgresql_alias_name: postgresql
 docker_image_postgresql_initdb_name: logwire
 
@@ -12,6 +12,8 @@ docker_image_postgresql_local_data_path: data
 docker_image_postgresql_local_packages_path: packages
 docker_image_package_name: postgresql.tar
 
-
 host_postgresql_port: 5432
 
+docker_compose_service_name: postgresql
+
+online_install: 'yes'

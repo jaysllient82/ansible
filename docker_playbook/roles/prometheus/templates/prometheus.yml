@@ -1,7 +1,7 @@
 global:
-  scrape_interval:     15s
+  scrape_interval: 15s
   external_labels:
-    monitor: 'grea-monitor'
+    monitor: '1699 office'
 scrape_configs:
   - job_name: 'prometheus' 
     scrape_interval: 5s    
@@ -14,6 +14,10 @@ scrape_configs:
   - job_name: 'node-exporter'
     file_sd_configs:
       - files: ['sd_config/node-exporter.yml']
+        refresh_interval: 5s
+  - job_name: 'docker'
+    file_sd_configs:
+      - files: ['sd_config/docker.yml']
         refresh_interval: 5s
 rule_files:
   - "alert.rules"

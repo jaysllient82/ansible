@@ -1,7 +1,7 @@
 ---
 # vars file for kibana---
 docker_image_kibana_port: 5601
-docker_image_kibana_name: kibana:7.4.1
+docker_image_kibana_name: kibana:6.7.2
 docker_image_kibana_alias_name: kibana
 
 docker_image_kibana_local_main_path: /grea/kibana
@@ -9,3 +9,5 @@ elasticsearch_ip: elasticsearch
 elasticsearch_port: 9200
 
 host_kibana_port: 5601
+
+docker_compose_service_name: kibana

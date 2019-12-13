@@ -8,5 +8,6 @@ docker_image_prometheus_local_data_path: data
 docker_image_prometheus_local_config_file: prometheus.yml
 docker_image_prometheus_local_alter_file: alert.rules
 
+docker_compose_service_name: prometheus
 
 host_prometheus_port: 9090

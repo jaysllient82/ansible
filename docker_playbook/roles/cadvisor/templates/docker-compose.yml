@@ -1,6 +1,6 @@
 version: '3'
 services:
-  dingtalk:
+  {{ docker_compose_service_name }}:
     image: {{ docker_image_cadvisor_name }} 
     ports:
       - "{{ host_cadvisor_port }}:{{ docker_image_cadvisor_port }}"

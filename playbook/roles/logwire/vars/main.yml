@@ -1,21 +1,21 @@
 ---
 # vars file for logwire---
-# vars file for redis
 jdk_package_version: 'jdk-8u231-linux-x64'
-logwire_main_path: '/u01/logwire-YWJK'
+logwire_main_path: '/grea/logwire'
+logwire_service_name: logwire.service
 
 logwire_user: 'logwire'
-logwire_password: 'greaLOGWIRE'
+logwire_password: 'greaPSQL11'
 logwire_exe: 'logwire-start.jar'
 logwire_conf: logwire-start.conf
 logwire_port: 8088
 
-logwire_spring_datasource_url: 'jdbc:postgresql://192.168.0.233:5432/logwire'
+logwire_spring_datasource_url: 'jdbc:postgresql://192.168.224.122:5432/logwire'
 logwire_spring_datasource_username:  postgres
 logwire_spring_datasource_password: greaPSQL11
 logwire_spring_datasource_driver_class_name: 'org.postgresql.Driver'
 
-logwire_spring_redis_host: '192.168.0.232'
+logwire_spring_redis_host: '192.168.224.122'
 logwire_spring_redis_port: 6379
 logwire_spring_redis_password: 'greaconsulting'
 
@@ -25,3 +25,6 @@ logwire_default_tenants_id: sto
 java_Xms: 1024m
 java_Xmx: 4096m
 
+jdk_install: 'no'
+logwire_user_create: 'no'
+jdk_install_path: '/usr/local/jdk'

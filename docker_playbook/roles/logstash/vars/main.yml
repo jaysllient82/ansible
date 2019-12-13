@@ -1,0 +1,12 @@
+---
+# vars file for logstash---
+docker_image_logstash_port: 2340
+docker_image_logstash_name: logstash:6.7.2
+docker_image_logstash_alias_name: logstash
+
+docker_image_logstash_local_main_path: /grea/logstash
+
+host_logstash_port: 2340
+elasticsearch_ip: elasticsearch
+
+docker_compose_service_name: logstash

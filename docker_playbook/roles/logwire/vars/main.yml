@@ -2,6 +2,8 @@
 # vars file for logwire
 jdk_package_name: 'jdk-8u231-linux-x64.tar.gz'
 
+docker_compose_service_name: logwire
+
 docker_image_logwire_port: 8088
 docker_image_logwire_user: 'logwire'
 docker_image_logwire_password: 'greaLOGWIRE'

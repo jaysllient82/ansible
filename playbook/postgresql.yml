@@ -1,5 +1,5 @@
 ---
-- hosts: postgresql
+- hosts: test
   roles:
   - postgresql
 

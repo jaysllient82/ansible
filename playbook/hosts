@@ -50,4 +50,5 @@
 121.36.151.23 ansible_ssh_user=root ansible_ssh_pass='Grea1234'
 [logwire]
 192.168.0.234 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'
-
+[test]
+192.168.224.122 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'

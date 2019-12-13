@@ -1,0 +1,4 @@
+---
+- hosts: logwire
+  roles:
+  - cf_logstash_logwire

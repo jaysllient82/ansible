@@ -1,0 +1,17 @@
+version: '3'
+services:
+  {{ docker_compose_service_name }}:
+    image: {{ docker_image_logstash_name }}
+    expose:
+      - "{{ docker_image_logstash_port }}"
+    volumes:
+      - {{ docker_image_logstash_local_main_path }}/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - {{ docker_image_logstash_local_main_path }}/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - {{ docker_image_logstash_local_main_path }}/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+    container_name: {{ docker_image_logstash_alias_name }}
+    networks:
+      - greaconsulting
+networks:
+  greaconsulting:
+    external: true
+

@@ -2,6 +2,7 @@
 # vars file for cadvisor
 docker_image_cadvisor_local_main_path: /grea/cadvisor
 docker_image_cadvisor_name: google/cadvisor:latest
+docker_compose_service_name: cadvisor
 
 
 host_cadvisor_port: 8080

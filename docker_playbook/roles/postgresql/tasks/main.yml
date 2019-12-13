@@ -12,9 +12,11 @@
   copy:
     src: "{{ docker_image_package_name }}"
     dest: "{{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_packages_path}}"
+  when: online_install == 'no'
 
 - name: load img package
   command: "docker load --input {{ docker_image_postgresql_local_main_path }}/{{ docker_image_postgresql_local_packages_path}}/{{ docker_image_package_name }} "
+  when: online_install == 'no'
 
 - name: copy Dockerfile
   copy:

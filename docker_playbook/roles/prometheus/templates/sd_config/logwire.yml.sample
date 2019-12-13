@@ -1,0 +1,3 @@
+- targets: ['logwire:8088']
+  labels:
+    app: logwire

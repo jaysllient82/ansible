@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- include包含的base.xml已经有 FILE CONSOLE appender -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!--
+    输出到logstash
+    具体输出字段参考：https://github.com/logstash/logstash-logback-encoder#loggingevent-fields
+     -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>{{ logstash_ip }}:{{ logstash_port }}</destination>
+        <queueSize>1048576</queueSize>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <root name="logwire" level="DEBUG" additivity="false">
+       <appender-ref ref="LOGSTASH"/>
+       <appender-ref ref="FILE"/>
+       <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  redis:
+  {{ docker_compose_service_name }}:
     image: {{ docker_image_redis_name }} 
     ports:
       - "{{ host_redis_port }}:{{ docker_image_redis_port }}"

@@ -1,5 +1,5 @@
 ---
-- hosts: redis
+- hosts: test
   roles:
   - redis
 

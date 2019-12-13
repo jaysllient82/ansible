@@ -1,0 +1,17 @@
+---
+# vars file for clickhouse
+docker_image_clickhouse_local_main_path: /grea/clickhouse
+docker_image_clickhouse_local_data_path: data
+docker_image_clickhouse_name: yandex/clickhouse-server
+dockercompose_service_name: clickhouse
+
+host_clickhouse_port: 9000
+host_clickhouse_syn_port: 9009
+host_clickhouse_http_port: 8123
+
+docker_image_clickhouse_port: 9000
+docker_image_clickhouse_syn_port: 9009
+docker_image_clickhouse_http_port: 8123
+
+docker_image_clickhouse_alias_name: clickhouse
+

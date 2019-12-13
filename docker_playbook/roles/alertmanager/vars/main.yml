@@ -7,6 +7,7 @@ docker_image_alertmanager_name: prom/alertmanager:latest
 host_alertmanager_port: 9093
 docker_image_alertmanager_port: 9093
 
+docker_compose_service_name: alertmanager
 docker_image_alertmanager_alias_name: alertmanager
 
 dingtalk_ip: 192.168.224.133

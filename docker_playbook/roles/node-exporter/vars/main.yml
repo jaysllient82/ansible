@@ -7,5 +7,6 @@ docker_image_node_exporter_name: prom/node-exporter
 host_node_exporter_port: 9100
 docker_image_node_exporter_port: 9100
 
-docker_image_node_exporter_alias_name: node_exporter
+docker_image_node_exporter_alias_name: 'node_exporter'
 
+docker_compose_service_name: 'node-exporter'

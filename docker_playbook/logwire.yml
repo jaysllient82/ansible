@@ -1,4 +1,4 @@
 ---
-- hosts: logwire
+- hosts: docker2
   roles:
   - logwire

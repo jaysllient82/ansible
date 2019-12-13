@@ -1,0 +1,12 @@
+---
+# vars file for cf_logstash_logwire
+logstash_ip: logstash
+logstash_port: 2340
+
+logwire_config_path: /grea/logwire/data/config
+logwire_alias_name: logwire
+
+logstash_package_path: /grea/logwire/data/lib
+logstash_package_name: logstash-logback-encoder-6.2.jar
+
+application_list: [{ reg: 'logging.config=', line: 'logging.config=./config/logback.xml' },{ reg: 'logging.level.com.atomikos=', line: 'logging.level.com.atomikos=WARN' },{ reg: 'logging.level.com.atomikos.jdbc.AtomikosDataSourceBean=', line: 'logging.level.com.atomikos.jdbc.AtomikosDataSourceBean=INFO' }]
