@@ -14,6 +14,11 @@
     src: "{{ docker_image_logwire_local_data_path }}/"
     dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path }}" 
 
+- name: copy logwire scripts
+  copy:
+    src: "{{ docker_image_logwire_local_scripts_path }}/"
+    dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_scripts_path }}"
+
 
 - name: template logwire.conf
   template:
@@ -40,18 +45,16 @@
   copy:
     src: "centos7/{{ docker_image_package_name }}"
     dest: "{{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_packages_path}}"
+  when: online_install == 'no'
 
 - name: load img package
   command: "docker load --input {{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_packages_path}}/{{ docker_image_package_name }} "
-
+  when: online_install == 'no'  
 
 - name: copy Dockerfile
   template:
     src: Dockerfile
     dest: "{{ docker_image_logwire_local_main_path }}"
-
-- name: docker build 
-  command: "chdir={{ docker_image_logwire_local_main_path }} docker build -t {{ docker_image_logwire_name }} ."
 
 - name: data files privilege
   file:

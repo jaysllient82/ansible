@@ -1,0 +1,6 @@
+---
+# handlers file for elasticsearch
+- name: restart firewall
+  service:
+    name: "firewalld.service"
+    state: restarted

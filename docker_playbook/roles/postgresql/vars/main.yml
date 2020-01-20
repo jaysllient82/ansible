@@ -16,4 +16,4 @@ host_postgresql_port: 5432
 
 docker_compose_service_name: postgresql
 
-online_install: 'yes'
+online_install: 'no'

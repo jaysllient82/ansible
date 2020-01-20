@@ -1,0 +1,58 @@
+---
+# tasks file for flannel
+- name: create folder
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - "{{ flannel_conf_path }}"
+
+- name: copy files
+  copy:
+    src: "{{ item }}"
+    dest: /usr/bin
+    mode: 0777
+  with_items:
+    - mk-docker-opts.sh
+    - flanneld
+
+- name: stop docker
+  service:
+    name: docker
+    state: stopped
+
+- name: template copy flannel.conf
+  template:
+    src: flannel.conf
+    dest: "{{ flannel_conf_path }}/flannel.conf"
+
+
+- name: template copy flannel.service
+  template:
+    src: flannel.service
+    dest: /usr/lib/systemd/system/flannel.service
+
+- name: docker systemd file 1 edit
+  lineinfile:
+    dest: /etc/systemd/system/docker.service
+    regexp: 'ExecStart=/usr/bin/dockerd'
+    line: "ExecStart=/usr/bin/dockerd $DOCKER_NETWORK_OPTIONS"
+  tags: test1
+
+- name: docker systemd file 2 edit
+  lineinfile:
+    dest: /etc/systemd/system/docker.service
+    regexp: 'EnvironmentFile=/run/flannel/subnet.env'
+    line: "EnvironmentFile=/run/flannel/subnet.env"
+    insertafter: 'ExecStart=/usr/bin/dockerd'
+  tags: test1
+
+- name: enable flannel
+  command: "{{ item }}"
+  with_items:
+  - "systemctl daemon-reload"
+  - "systemctl enable flannel"
+  - "systemctl stop docker"
+  - "systemctl start flannel"
+  - "systemctl start docker"
+

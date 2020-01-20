@@ -1,4 +1,4 @@
 ---
-- hosts: elasticsearch
+- hosts: test
   roles:
   - elasticsearch

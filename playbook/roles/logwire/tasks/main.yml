@@ -17,7 +17,6 @@
   with_items:
     - "{{ logwire_main_path }}"
     - /tmp/packages
-  tags: us
 
 - name: decompress package
   unarchive:
@@ -26,11 +25,13 @@
     dest: /tmp/packages
     mode: 0777
   when: jdk_install == "yes"
+  tags: test1
     
 
 - name: jdk 
   shell: "chdir=/tmp/packages ls | grep jdk | awk '{print $0}' | xargs -n1 -I {} mv  /tmp/packages/{} {{ jdk_install_path }}"
   when: jdk_install == "yes"
+  tags: test1
 
 - name: /tmp/tomcat setting
   command: 'echo "x /tmp/tomcat*" >> /usr/lib/tmpfiles.d/tmp.conf'
@@ -46,10 +47,12 @@
     - { reg: 'export PATH=$JAVA_HOME/bin:$PATH', line: 'export PATH=$JAVA_HOME/bin:$PATH' }
     - { reg: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH', line: 'export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH' }
   when: jdk_install == "yes"
+  tags: test1
 
 - name: source /etc/profile
   shell: "source /etc/profile"
   when: jdk_install == "yes"
+  tags: test1
 
 - name: copy files to remote server
   copy:

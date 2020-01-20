@@ -1,13 +1,14 @@
 version: '3'
 services:
   {{ docker_compose_service_name }}:
+    build: {{ docker_image_logwire_local_main_path }}
     image: {{ docker_image_logwire_name }}
     ports:
       - "{{ host_logwire_port }}:{{ docker_image_logwire_port }}"
     volumes:
       - {{ docker_image_logwire_local_main_path }}/{{ docker_image_logwire_local_data_path}}:/app/logwire
     container_name: {{ docker_image_logwire_alias_name }}
-    entrypoint: ["/app/logwire/{{ docker_image_logwire_exe }}"]
+    entrypoint: ["/scripts/startup.sh"]
     networks:
       - greaconsulting
 networks:

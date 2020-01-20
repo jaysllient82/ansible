@@ -1,0 +1,13 @@
+---
+# handlers file for etcd
+
+- name: restart etcd
+  service:
+    name: etcd.service
+    state: restarted
+
+- name: restart firewall
+  service:
+    name: "firewalld.service"
+    state: restarted
+

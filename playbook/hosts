@@ -42,8 +42,10 @@
 
 ## db-[99:101]-node.example.com
 
-[redis]
-192.168.0.232 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'
+[es]
+139.9.166.55 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
+139.9.173.224 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
+119.3.148.251 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
 [postgresql]
 192.168.0.232 ansbile_ssh_user=root ansible_ssh_pass='qwe123,.'
 [demo]

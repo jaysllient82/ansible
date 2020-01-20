@@ -42,9 +42,15 @@
 
 ## db-[99:101]-node.example.com
 [test]
-#119.3.29.219 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13322
-192.168.224.122 ansible_ssh_user=root ansible_ssh_pass='qwe123,.'
+192.168.224.122 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+#192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+#192.168.224.124 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
 [demo]
 121.36.151.23 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
 [docker2]
-192.168.224.122 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+192.168.224.123 ansible_ssh_user=root ansible_ssh_pass='qwe123,.' ansible_ssh_port=22
+[docwire]
+#139.9.166.55 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
+#139.9.173.224 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
+#119.3.148.251 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=13389
+119.3.101.33 ansible_ssh_user=root ansible_ssh_pass='Grea1234' ansible_ssh_port=22

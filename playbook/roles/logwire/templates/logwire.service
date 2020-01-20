@@ -6,6 +6,7 @@ After=syslog.target
 User=logwire
 ExecStart={{ logwire_main_path }}/{{ logwire_exe }}
 SuccessExitStatus=143
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+---
+# vars file for flannel
+flannel_conf_path: /etc/flanneld

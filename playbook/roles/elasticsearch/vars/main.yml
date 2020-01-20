@@ -1,0 +1,13 @@
+---
+# vars file for elasticsearch
+online_install: 'no'
+elasticsearch_package_version: 'elasticsearch-6.5.1'
+elasticsearch_http_port: 9200
+elasticsearch_transport_port: 9300
+
+redis_pass: 'greaconsulting'
+redis_conf_path: '/etc/redis'
+redis_conf_file: 'redis.conf'
+redis_log_path: '/var/log/redis.log'
+redis_data_path: '/var/lib/redis/data'
+

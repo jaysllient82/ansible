@@ -1,0 +1,48 @@
+---
+# tasks file for etcd
+- name: create folder
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - "{{ etcd_conf_path }}"
+  - "{{ etcd_data_path }}"
+
+- name: copy files
+  copy:
+    src: "{{ item }}"
+    dest: /usr/bin
+    mode: 0777
+  with_items:
+    - etcd
+    - etcdctl
+
+- name: template copy etcd.conf
+  template:
+    src: etcd.conf
+    dest: "{{ etcd_conf_path }}/etcd.conf"
+
+- name: template copy etcd.service
+  template:
+    src: etcd.service
+    dest: /usr/lib/systemd/system/etcd.service
+
+- name: open firewall tcp port
+  command: "firewall-cmd --add-port={{ item }}/tcp --permanent"
+  with_items:
+    - "{{ etcd_port }}"
+    - "{{ etcd_cluster_port }}"
+  ignore_errors: yes
+
+- name: firewall reload
+  command: "firewall-cmd --reload"
+  ignore_errors: yes
+
+
+- name: enable etcd
+  command: "{{ item }}"
+  with_items:
+  - "systemctl daemon-reload"
+  - "systemctl enable etcd"
+  - "systemctl start etcd"
+

@@ -1,0 +1,10 @@
+---
+# vars file for etcd
+etcd_package_name: etcd-v3.3.9-linux-amd64
+etcd_conf_path: /etc/etcd
+etcd_data_path: /var/lib/etcd
+#etcd_node_name: etcd01
+etcd_cluster_port: 2380
+etcd_port: 2379
+#etcd_node_ip: 192.168.224.122
+etcd_cluster: docker2=http://192.168.224.122:2380,docker3=http://192.168.224.123:2380,docker4=http://192.168.224.124:2380

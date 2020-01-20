@@ -10,8 +10,11 @@ docker_image_redis_local_packages_path: packages
 docker_image_redis_local_conf_path: conf
 docker_image_package_name: redis.tar
 
+
+redis_password: greaREDIS
+
 host_redis_port: 6379
 
 docker_compose_service_name: redis
 
-online_install: 'yes'
+online_install: 'no'

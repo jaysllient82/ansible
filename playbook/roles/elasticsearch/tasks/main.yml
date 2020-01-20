@@ -1,0 +1,80 @@
+---
+# tasks file for elasticsearch
+- name: yum install tools
+  yum:  
+    name: [java-1.8.0-openjdk,java-1.8.0-openjdk-devel]
+    state: present
+  tags: test
+
+- name: create user
+  user:
+    name: "es"
+    password: "{{ 'GreaElasticsearch' | password_hash('sha512') }}"
+    state: present
+  tags: test
+
+- name: wget es packages
+  get_url:
+    url: https://artifacts.elastic.co/downloads/elasticsearch/{{ elasticsearch_package_version }}.tar.gz
+    dest: /tmp
+  when: online_install == "yes"
+  tags: test
+
+- name: copy files to remote server
+  copy:
+    src: "{{ elasticsearch_package_version }}.tar.gz"
+    dest: /tmp
+    mode: 0777
+  when: online_install == "no"
+  tags: test
+
+- name: decompress package
+  unarchive:
+    copy: no
+    src: "/tmp/{{ elasticsearch_package_version }}.tar.gz"
+    dest: /usr/local/
+    mode: 0777
+  tags: test
+
+- name: create directory
+  file:
+    path: "/usr/local/{{ elasticsearch_package_version }}"
+    owner: es
+    mode: 0760
+    recurse: yes
+  tags: test
+
+- name: edit max file descriptors 1
+  lineinfile:
+    dest: /etc/security/limits.conf
+    regexp: '\* soft nofile'
+    line: "* soft nofile 65536"
+  tags: test
+
+- name: edit max file descriptors 2
+  lineinfile:
+    dest: /etc/security/limits.conf
+    regexp: '\* hard nofile'
+    line: "* hard nofile 65536"
+  tags: test
+
+- name: template elasticsearch.yml
+  template:
+    src: elasticsearch.yml
+    dest: /tmp/abc
+    mode: 0777
+
+- name: elasticsearch start
+  command: "/usr/local/{{ redis_package_version}}/bin/elasticsearch"
+
+- name: open firewall es_http_port
+  command: "firewall-cmd --add-port={{ elasticsearch_http_port }}/tcp --permanent"
+  notify: restart firewall
+  ignore_errors: yes
+
+- name: open firewall es_transport_port
+  command: "firewall-cmd --add-port={{ elasticsearch_transport_port }}/tcp --permanent"
+  notify: restart firewall
+  ignore_errors: yes
+
+

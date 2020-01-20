@@ -1,4 +1,4 @@
 ---
-- hosts: docker2
+- hosts: test
   roles:
   - redis

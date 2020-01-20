@@ -15,6 +15,7 @@ docker_image_logwire_conf: 'logwire-starter.conf'
 docker_image_logwire_local_main_path: /grea/logwire
 docker_image_logwire_local_packages_path: packages
 docker_image_logwire_local_data_path: data
+docker_image_logwire_local_scripts_path: scripts
 docker_image_package_name: centos7.tar
 
 host_logwire_port: 8088
@@ -26,9 +27,12 @@ logwire_spring_datasource_driver_class_name: 'org.postgresql.Driver'
 
 logwire_spring_redis_host: 'redis'
 logwire_spring_redis_port: 6379
+logwire_spring_redis_password: greaREDIS
 
 logwire_tenants0_id: sto
 logwire_default_tenants_id: sto
 
 java_Xms: 1024m
 java_Xmx: 4096m
+
+online_install: 'no'

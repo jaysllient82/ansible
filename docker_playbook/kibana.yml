@@ -1,4 +1,4 @@
 ---
-- hosts: kibana
+- hosts: test
   roles:
   - kibana

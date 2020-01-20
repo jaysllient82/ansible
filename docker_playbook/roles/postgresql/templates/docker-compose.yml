@@ -1,6 +1,7 @@
 version: '3'
 services:
   {{ docker_compose_service_name }}:
+    build: {{ docker_image_postgresql_local_main_path }}
     image: {{ docker_image_postgresql_name }}
     ports:
       - "{{ host_postgresql_port }}:{{ docker_image_postgresql_port }}"

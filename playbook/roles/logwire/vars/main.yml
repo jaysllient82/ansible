@@ -25,6 +25,6 @@ logwire_default_tenants_id: sto
 java_Xms: 1024m
 java_Xmx: 4096m
 
-jdk_install: 'no'
-logwire_user_create: 'no'
+jdk_install: 'yes'
+logwire_user_create: 'yes'
 jdk_install_path: '/usr/local/jdk'
